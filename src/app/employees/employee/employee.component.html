@@ -1,0 +1,19 @@
+<h1 class="display-4">Employee Register</h1>
+<form #form="ngForm" autocomplete="off" (submit) = "onsubmit(form)">
+  <div class="form-group">
+    <input name="fullname" #fullname = "ngModel" [(ngModel)]="empService.formData.fullname" class="form-control" placeholder="Full Name">
+  </div>
+
+  <div class="form-group">
+    <input name="position" #position = "ngModel" [(ngModel)]="empService.formData.position" class="form-control" placeholder="Position">
+  </div>
+
+  <div class="form-group">
+    <input name="empcode" #empcode = "ngModel" [(ngModel)]="empService.formData.empcode" class="form-control" placeholder="Emp Code">
+  </div>
+
+  <div class="form-group">
+      <button type="submit" class="btn btn-lg btn-block btn-info">Submit</button>
+  </div>
+
+</form>
