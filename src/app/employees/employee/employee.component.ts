@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { EmployeeService } from 'src/app/shared/employee.service';
 import { NgForm } from '@angular/forms';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-employee',
@@ -11,7 +12,8 @@ import { AngularFirestore } from '@angular/fire/firestore';
 export class EmployeeComponent implements OnInit {
 
   constructor(private empService : EmployeeService, 
-    private firestore : AngularFirestore) { }
+    private firestore : AngularFirestore,
+    private toastr : ToastrService) { }
 
   ngOnInit() {
     this.resetForm();
@@ -33,9 +35,15 @@ export class EmployeeComponent implements OnInit {
   }
 
   onsubmit(form: NgForm){
-    let data = form.value;
-    this.firestore.collection('employees').add(data);
+    let data = Object.assign({}, form.value);
+    delete data.id;
+
+    if(form.value.id == null) // inserting record
+      this.firestore.collection('employees').add(data);
+    else
+      this.firestore.doc('employees/'+form.value.id).update(data);
     this.resetForm(form);
+    this.toastr.success("Submitted Successfully", "Employee Register");
   }
 
 }
